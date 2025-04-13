@@ -253,43 +253,42 @@ def format_content(text):
     return text
 
 def extract_transcript(video_id):
-    """Extract transcript from a YouTube video."""
+    """Extract transcript from a YouTube video, with proxy support and fallback logic."""
     try:
+        # Load proxy if available in environment
+        proxy_url = os.getenv('PROXY')
+        proxy = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
+
         # First try with default 'en' language
         try:
-            transcript = YouTubeTranscriptApi.get_transcript(video_id)
+            transcript = YouTubeTranscriptApi.get_transcript(video_id, proxies=proxy)
             formatter = TextFormatter()
             return formatter.format_transcript(transcript)
         except Exception as primary_error:
             # If default language fails, try specific language variants
             try:
-                # Try with 'en-IN' (English India) which is common
-                transcript = YouTubeTranscriptApi.get_transcript(video_id, ['en-IN'])
+                transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['en-IN'], proxies=proxy)
                 formatter = TextFormatter()
                 return formatter.format_transcript(transcript)
             except:
-                # If that fails too, try to get available languages and use the first one
                 try:
-                    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-                    # Get the first manual transcript or the first auto-generated one if no manual exists
+                    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id, proxies=proxy)
                     for transcript in transcript_list:
-                        # Try to get transcript and translate to English if needed
                         if transcript.is_translatable:
                             english_transcript = transcript.translate('en').fetch()
                             formatter = TextFormatter()
                             return formatter.format_transcript(english_transcript)
                         else:
-                            # Use whatever transcript is available
                             transcript_data = transcript.fetch()
                             formatter = TextFormatter()
                             return formatter.format_transcript(transcript_data)
                 except Exception as list_error:
-                    # If all else fails, raise the original error
                     raise primary_error
-                    
+
     except Exception as e:
         print(f"Error extracting transcript: {str(e)}")
         return f"Error: Could not extract transcript. {str(e)}"
+
 
 def generate_summary(text, prompt):
     """Generate a summary using Google's Gemini API."""
@@ -1039,4 +1038,4 @@ def profile():
     return render_template('profile.html', user=user)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
