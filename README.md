@@ -86,16 +86,6 @@
    
    > **Note**: You need to obtain a Google API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
 
-4. **Set up Supabase Database** (Required)
-
-   This application requires a Supabase database for user authentication. Set up a 'users' table in your Supabase database with the following columns:
-   - user_id (text, primary key)
-   - name (text)
-   - email (text, unique)
-   - password (text)
-   - api_key (text)
-   - created_at (timestamp)
-
 ## Usage
 
 1. **Start the application**
