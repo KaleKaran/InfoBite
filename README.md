@@ -12,7 +12,7 @@
 
 **InfoBite** is a web application designed for Mumbai University engineering students to quickly extract key information from educational content. It uses Google's Gemini AI to generate structured, comprehensive summaries from YouTube videos and documents (PDF/PPT), formatted specifically for exam preparation.
 
-![Application Screenshot](https://github.com/KaleKaran/YT-SmartFetcher-AI/blob/2dd09f75fe7fed1b134d42a99c80579ce248fe86/static/images/Homepage)
+![Application Screenshot](https://github.com/KaleKaran/InfoBite/blob/26bbccc5ece4d4e644b4f428e4a901938e75c4c5/static/images/Homepage.png)
 
 ## Important: Authentication Required
 
