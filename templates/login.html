@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - InfoBite</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid rgba(167, 123, 202, 0.2);
+        }
+        
+        .auth-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #3E2A47;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #3E2A47;
+            font-weight: 600;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(167, 123, 202, 0.3);
+            border-radius: 6px;
+            font-size: 16px;
+            color: #3E2A47;
+            background-color: #fff;
+            transition: border-color 0.3s;
+        }
+        
+        .auth-form input:focus {
+            border-color: #5B3F8D;
+            outline: none;
+        }
+        
+        .auth-btn {
+            background-color: #5B3F8D;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        .auth-btn:hover {
+            background-color: #3E2A47;
+        }
+        
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .auth-link a {
+            color: #5B3F8D;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .flash-message {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .flash-error {
+            background-color: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .flash-success {
+            background-color: #e8f5e9;
+            color: #388e3c;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .auth-message {
+            background-color: #f0f4ff;
+            border: 1px solid #cfd8ff;
+            color: #3E2A47;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .auth-message p {
+            margin: 5px 0;
+        }
+        
+        .auth-message i {
+            color: #5B3F8D;
+            margin-right: 5px;
+        }
+        
+        .auth-message a {
+            color: #5B3F8D;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">
+                <i class="fas fa-brain"></i> InfoBite
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <h1 class="auth-title"><i class="fas fa-sign-in-alt"></i> Login</h1>
+        
+        <div class="auth-message">
+            <p><i class="fas fa-info-circle"></i> Login is required to use InfoBite as we need your Gemini API key for content generation.</p>
+            <p>Don't have an API key? <a href="https://ai.google.dev/" target="_blank">Get one here</a>.</p>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form class="auth-form" method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            
+            <button type="submit" class="auth-btn"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </form>
+        
+        <div class="auth-link">
+            <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About InfoBite</h3>
+                <p>InfoBite is a cutting-edge tool designed to help you extract key information from videos and documents quickly and efficiently.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Have questions or feedback? Reach out to us at <a href="mailto:karankale236@nhitm.ac.in, gandharavakhedekar236@nhitm.ac.in">contact@infobite.com</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/karan-b-kale-ai-ml-dl/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/KaleKaran?tab=repositories" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 InfoBite. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

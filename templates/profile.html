@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - InfoBite</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid rgba(167, 123, 202, 0.2);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(167, 123, 202, 0.2);
+            padding-bottom: 20px;
+        }
+        
+        .profile-icon {
+            background-color: #5B3F8D;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            font-size: 2rem;
+        }
+        
+        .profile-title {
+            color: #3E2A47;
+            margin: 0;
+        }
+        
+        .profile-email {
+            color: #666;
+            margin: 5px 0 0 0;
+        }
+        
+        .profile-section {
+            margin-bottom: 30px;
+        }
+        
+        .profile-section h2 {
+            color: #3E2A47;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(167, 123, 202, 0.2);
+            padding-bottom: 10px;
+        }
+        
+        .api-key-container {
+            background-color: #f8f8fc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(167, 123, 202, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        .api-key {
+            font-family: monospace;
+            word-break: break-all;
+            color: #333;
+            margin: 0;
+            padding: 5px 0;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .profile-btn {
+            background-color: #5B3F8D;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .profile-btn i {
+            margin-right: 8px;
+        }
+        
+        .profile-btn:hover {
+            background-color: #3E2A47;
+        }
+        
+        .btn-secondary {
+            background-color: #A77BCA;
+        }
+        
+        .btn-danger {
+            background-color: #d32f2f;
+        }
+        
+        .btn-danger:hover {
+            background-color: #b71c1c;
+        }
+        
+        .flash-message {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .flash-error {
+            background-color: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .flash-success {
+            background-color: #e8f5e9;
+            color: #388e3c;
+            border: 1px solid #c8e6c9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">
+                <i class="fas fa-brain"></i> InfoBite
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About</a>
+                <a href="{{ url_for('profile') }}" class="nav-link active">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="profile-header">
+            <div class="profile-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <h1 class="profile-title">{{ user.name }}</h1>
+                <p class="profile-email">{{ user.email }}</p>
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <h2><i class="fas fa-key"></i> API Configuration</h2>
+            <p>Your Gemini API key is currently being used for all summarization tasks.</p>
+            
+            <div class="api-key-container">
+                <p><strong>Your API Key (masked):</strong></p>
+                <p class="api-key">{{ user.api_key[:8] }}************************</p>
+            </div>
+            
+            <p><small>*For security reasons, we only display the first few characters of your API key.</small></p>
+        </div>
+        
+        <div class="profile-actions">
+            <a href="{{ url_for('home') }}" class="profile-btn">
+                <i class="fas fa-home"></i> Return to Home
+            </a>
+            <a href="{{ url_for('logout') }}" class="profile-btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About InfoBite</h3>
+                <p>InfoBite is a cutting-edge tool designed to help you extract key information from videos and documents quickly and efficiently.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Have questions or feedback? Reach out to us at <a href="mailto:karankale236@nhitm.ac.in, gandharavakhedekar236@nhitm.ac.in">contact@infobite.com</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/karan-b-kale-ai-ml-dl/" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/KaleKaran?tab=repositories" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 InfoBite. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

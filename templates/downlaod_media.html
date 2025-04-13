@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Media Download</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Media Download</h1>
+        <div class="download-section">
+            <a href="/download_media/{{ video_id }}/mp4" class="download-button">Download Video (MP4)</a>
+            <a href="/download_media/{{ video_id }}/mp3" class="download-button">Download Audio (MP3)</a>
+            <a href="/download_media/{{ video_id }}/thumbnail" class="download-button">Download Thumbnail</a>
+        </div>
+    </div>
+</body>
+</html>
