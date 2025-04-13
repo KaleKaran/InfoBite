@@ -82,11 +82,7 @@
    Then edit the `.env` file with your actual credentials:
    ```
    GOOGLE_API_KEY=your_google_api_key_here
-   SUPABASE_URL=https://lkhmxqaukkfgtazjqkvs.supabase.co
-   SUPABASE_KEY=your_supabase_anon_key_here
    ```
-   
-   > **Important**: Never commit your `.env` file with real credentials to version control. The `.env` file is included in `.gitignore` for security.
    
    > **Note**: You need to obtain a Google API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
 
